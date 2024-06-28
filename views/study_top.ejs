@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Top</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .main-category {
+      font-size: 1.25rem;
+      /* フォントサイズを大きく */
+      font-weight: bold;
+      /* 文字を太字に */
+      color: rgb(72, 73, 73);
+      /* 文字色の変更（例：青色） */
+      margin-bottom: 10px;
+      /* 下部の余白 */
+    }
+
+    .container {
+      max-width: 1200px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    h2 {
+      color: rgb(72, 73, 73);
+      font-weight: bold;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgb(72, 73, 73);
+      margin-bottom: 20px;
+    }
+
+    .task-checkbox {
+      margin-right: 10px;
+    }
+
+    .list-group-item {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      border-radius: 0;
+      font-size: 1.1em;
+    }
+
+    .list-group-item:hover {
+      background-color: #f8f9fa;
+      cursor: pointer;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-img-top {
+      padding-top: 25px;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-top-left-radius: calc(0.25rem - 1px);
+      border-top-right-radius: calc(0.25rem - 1px);
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-text {
+      margin: 0;
+      font-size: 0.9em;
+    }
+
+    .list-group-item {
+      margin-bottom: 10px;
+      /* A級などのリスト項目間のスペース */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>課題一覧</h2>
+
+        <!-- 課題の大分類 -->
+        <div class="list-group">
+          <!-- A級 -->
+          <a href="#" class="list-group-item list-group-item-action main-category" data-bs-toggle="collapse"
+            data-bs-target="#AContent">+A級</a>
+          <div id="AContent" class="collapse">
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#azClassContent">+実技</a>
+            <div id="azClassContent" class="collapse">
+              <a href="/pdf/A-z-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-1') ? 'checked' : '' %>> ①機材</a>
+              <a href="/pdf/A-z-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-2') ? 'checked' : '' %>>②機材の取り扱いと準備</a>
+              <a href="/pdf/A-z-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-3') ? 'checked' : '' %>>③フライトの準備</a>
+              <a href="/pdf/A-z-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-4') ? 'checked' : '' %>>④ブレークコードの準備</a>
+              <a href="/pdf/A-z-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-5') ? 'checked' : '' %>>⑤ライズアップ</a>
+              <a href="/pdf/A-z-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-6') ? 'checked' : '' %>>⑥グランドハンドリング</a>
+              <a href="/pdf/A-z-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-7') ? 'checked' : '' %>>⑦テイクオフ</a>
+              <a href="/pdf/A-z-8/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-8') ? 'checked' : '' %>>⑧直線飛行</a>
+              <a href="/pdf/A-z-9/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-z-9') ? 'checked' : '' %>>⑨ランディング</a>
+            </div>
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#agClassContent">+学科</a>
+            <div id="agClassContent" class="collapse">
+              <a href="/pdf/A-g-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-g-1') ? 'checked' : '' %>>①風向と風速</a>
+              <a href="/pdf/A-g-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-g-2') ? 'checked' : '' %>>②パラグライダーの滑空1</a>
+              <a href="/pdf/A-g-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-g-3') ? 'checked' : '' %>>③心身の準備</a>
+              <a href="/pdf/A-g-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-g-4') ? 'checked' : '' %>>④エリア毎のルール</a>
+              <a href="/pdf/A-g-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('A-g-5') ? 'checked' : '' %>>⑤低高度練習中における危険性</a>
+            </div>
+          </div>
+          <!-- B級 -->
+          <a href="#" class="list-group-item list-group-item-action main-category" data-bs-toggle="collapse"
+            data-bs-target="#BContent">+B級</a>
+          <div id="BContent" class="collapse">
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#bzClassContent">+実技</a>
+            <div id="bzClassContent" class="collapse">
+              <a href="/pdf/B-z-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-1') ? 'checked' : '' %>>①レスキューパラシュート</a>
+              <a href="/pdf/B-z-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-2') ? 'checked' : '' %>>②不時着</a>
+              <a href="/pdf/B-z-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-3') ? 'checked' : '' %>>③高高度フライト</a>
+              <a href="/pdf/B-z-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-4') ? 'checked' : '' %>>④リバースライズアップ</a>
+              <a href="/pdf/B-z-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-5') ? 'checked' : '' %>>⑤高高度のテイクオフ</a>
+              <a href="/pdf/B-z-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-6') ? 'checked' : '' %>>⑥グライダーの設定</a>
+              <a href="/pdf/B-z-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-7') ? 'checked' : '' %>>⑦旋回</a>
+              <a href="/pdf/B-z-8/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-8') ? 'checked' : '' %>>⑧偏流修正飛行</a>
+              <a href="/pdf/B-z-9/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-9') ? 'checked' : '' %>>⑨速度コントロール1</a>
+              <a href="/pdf/B-z-10/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-10') ? 'checked' : '' %>>⑩グライドパス</a>
+              <a href="/pdf/B-z-11/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-z-11') ? 'checked' : '' %>>⑪ランディング2</a>
+            </div>
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#bgClassContent">+学科</a>
+            <div id="bgClassContent" class="collapse">
+              <a href="/pdf/B-g-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-1') ? 'checked' : '' %>>①安全規格</a>
+              <a href="/pdf/B-g-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-2') ? 'checked' : '' %>>②機材のメンテナンス</a>
+              <a href="/pdf/B-g-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-3') ? 'checked' : '' %>>③フライトルールとマナー</a>
+              <a href="/pdf/B-g-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-4') ? 'checked' : '' %>>④パラグライダーの滑空2</a>
+              <a href="/pdf/B-g-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-5') ? 'checked' : '' %>>⑤パラグライダーの旋回1</a>
+              <a href="/pdf/B-g-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-6') ? 'checked' : '' %>>⑥風</a>
+              <a href="/pdf/B-g-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-7') ? 'checked' : '' %>>⑦航空法と小型無人機等飛行禁止法</a>
+              <a href="/pdf/B-g-8/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('B-g-8') ? 'checked' : '' %>>⑧高高度練習中における危険性</a>
+            </div>
+          </div>
+          <!--三枚目上見出し-->
+          <a href="#" class="list-group-item list-group-item-action main-category" data-bs-toggle="collapse"
+            data-bs-target="#HContent">+C級</a>
+          <div id="HContent" class="collapse">
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#hzClassContent">+実技</a>
+            <div id="hzClassContent" class="collapse">
+              <a href="/pdf/H-z-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-1') ? 'checked' : '' %>>①スラローム飛行</a>
+              <a href="/pdf/H-z-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-2') ? 'checked' : '' %>>②リッジソアリング</a>
+              <a href="/pdf/H-z-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-3') ? 'checked' : '' %>>③360度旋回1</a>
+              <a href="/pdf/H-z-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-4') ? 'checked' : '' %>>④堀周アプローチ</a>
+              <a href="/pdf/H-z-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-5') ? 'checked' : '' %>>⑤ランディング3</a>
+              <a href="/pdf/H-z-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-6') ? 'checked' : '' %>>⑥速度コントロール2</a>
+              <a href="/pdf/H-z-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-7') ? 'checked' : '' %>>⑦ピッチングトローリング</a>
+              <a href="/pdf/H-z-8/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-z-8') ? 'checked' : '' %>>⑧緊急時の操作</a>
+            </div>
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#hgClassContent">+学科</a>
+            <div id="hgClassContent" class="collapse">
+              <a href="/pdf/H-g-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-1') ? 'checked' : '' %>>①心身の準備2</a>
+              <a href="/pdf/H-g-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-2') ? 'checked' : '' %>>②ポーラーカーブ</a>
+              <a href="/pdf/H-g-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-3') ? 'checked' : '' %>>③翼変形と回復</a>
+              <a href="/pdf/H-g-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-4') ? 'checked' : '' %>>④パラグライダーが利用できる上昇風</a>
+              <a href="/pdf/H-g-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-5') ? 'checked' : '' %>>⑤大気の安定度1</a>
+              <a href="/pdf/H-g-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-6') ? 'checked' : '' %>>⑥危険なコンディション1</a>
+              <a href="/pdf/H-g-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('H-g-7') ? 'checked' : '' %>>⑦パラグライダーとハンググライダ―の特性</a>
+            </div>
+          </div>
+          <!--パラグライディングパイロット技能証課程-->
+          <a href="#" class="list-group-item list-group-item-action main-category" data-bs-toggle="collapse"
+            data-bs-target="#PContent">+パラグライディングパイロット技能証課程</a>
+          <div id="PContent" class="collapse">
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#pzClassContent">+実技</a>
+            <div id="pzClassContent" class="collapse">
+              <a href="/pdf/P-z-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-1') ? 'checked' : '' %>>①360度旋回1</a>
+              <a href="/pdf/P-z-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-2') ? 'checked' : '' %>>②サーマルソアリング</a>
+              <a href="/pdf/P-z-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-3') ? 'checked' : '' %>>③ランディング4</a>
+              <a href="/pdf/P-z-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-4') ? 'checked' : '' %>>④潰れからの回復</a>
+              <a href="/pdf/P-z-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-5') ? 'checked' : '' %>>⑤緊急降下手段1</a>
+              <a href="/pdf/P-z-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-z-6') ? 'checked' : '' %>>⑥ホームエリア以外でのフライト</a>
+            </div>
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#pgClassContent">+学科</a>
+            <div id="pgClassContent" class="collapse">
+              <a href="/pdf/P-g-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-1') ? 'checked' : '' %>>①大気圏利用の基礎</a>
+              <a href="/pdf/P-g-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-2') ? 'checked' : '' %>>②危険なコンディション2</a>
+              <a href="/pdf/P-g-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-3') ? 'checked' : '' %>>③危険回避</a>
+              <a href="/pdf/P-g-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-4') ? 'checked' : '' %>>④競技会</a>
+              <a href="/pdf/P-g-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-5') ? 'checked' : '' %>>⑤クロスカントリー飛行</a>
+              <a href="/pdf/P-g-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('P-g-6') ? 'checked' : '' %>>⑥危機管理</a>
+            </div>
+          </div>
+          <!--パラグライディングクロスカントリー技能証課程-->
+          <a href="#" class="list-group-item list-group-item-action main-category" data-bs-toggle="collapse"
+            data-bs-target="#KContent">+パラグライディングクロスカントリー技能証課程</a>
+          <div id="KContent" class="collapse">
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#kzClassContent">+実技</a>
+            <div id="kzClassContent" class="collapse">
+              <a href="/pdf/K-z-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-z-1') ? 'checked' : '' %>>①ランディング5</a>
+              <a href="/pdf/K-z-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-z-2') ? 'checked' : '' %>>②ローリング(45度)</a>
+              <a href="/pdf/K-z-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-z-3') ? 'checked' : '' %>>③緊急降下手段2</a>
+              <a href="/pdf/K-z-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-z-4') ? 'checked' : '' %>>④クロスカントリー練習飛行</a>
+            </div>
+            <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+              data-bs-target="#kgClassContent">+学科</a>
+            <div id="kgClassContent" class="collapse">
+              <a href="/pdf/K-g-1/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-1') ? 'checked' : '' %>>①フライトの準備2</a>
+              <a href="/pdf/K-g-2/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-2') ? 'checked' : '' %>>②飛行計画と報告</a>
+              <a href="/pdf/K-g-3/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-3') ? 'checked' : '' %>>③クロスカントリー飛行に必要な手続き</a>
+              <a href="/pdf/K-g-4/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-4') ? 'checked' : '' %>>④大気の安定度2</a>
+              <a href="/pdf/K-g-5/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-5') ? 'checked' : '' %>>⑤気象情報の利用</a>
+              <a href="/pdf/K-g-6/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-6') ? 'checked' : '' %>>⑥飛行情報の入手と判断</a>
+              <a href="/pdf/K-g-7/<%= userName %>?url=https://sorarogu-app.s3.ap-northeast-1.amazonaws.com/A_2.pdf"
+                class="list-group-item list-group-item-action"><input type="checkbox" class="task-checkbox"
+                  <%=grades.includes('K-g-7') ? 'checked' : '' %>>⑦安全なクロスカントリー</a>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="mt-4">動画一覧</h2>
+        <!-- 動画リストの大分類 -->
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+            data-bs-target="#videoAContent">+A級</a>
+          <div id="videoAContent" class="collapse">
+            <!-- A級の動画リスト -->
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">
+                      動画の説明
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">動画の説明</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">動画の説明</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse"
+            data-bs-target="#videoBContent">+B級</a>
+          <div id="videoBContent" class="collapse">
+            <!-- A級の動画リスト -->
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">
+                      動画の説明
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">動画の説明</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="https://www.youtube.com/">
+                    <img
+                      src="https://media.istockphoto.com/id/1195743934/ja/%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC/%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84%E3%83%91%E3%83%B3%E3%83%80%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3.jpg?s=612x612&w=0&k=20&c=ror-wYG2zFvCoRFD1N0p6ZLzuURjWKXtMRCc40-qG10="
+                      class="card-img-top" alt="動画の説明">
+                  </a>
+                  <div class="card-body">
+                    <p class="card-text">動画の説明</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

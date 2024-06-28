@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タンデム顧客一覧</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            font-size: 24px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        /* コンテナと検索欄のスタイル */
+        .table-section {
+            flex: 1;
+            min-width: 60%;
+            order: 2;
+        }
+
+        .search {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 25px;
+            padding-bottom: 0px;
+        }
+
+        .search form {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search form a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .search form a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            max-width: 100%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        legend {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            display: block;
+            margin-bottom: 15px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .name {
+            background-color: #333;
+            color: white;
+            display: flex;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .name span {
+            flex: 1;
+            text-align: center;
+        }
+
+        .table-body {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-body li {
+            background-color: white;
+            background-size: 100% auto;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            padding: 10px;
+        }
+
+        .table-body li:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        .name-column {
+            flex: 1;
+            text-align: center;
+        }
+
+        .update-button {
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .update-button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        タンデム顧客一覧
+    </header>
+    <div class="search">
+        <form action="/schedule_search" method="post">
+            <fieldset>
+                <legend>フライト予定日と名前で検索</legend>
+                <label>
+                    <input type="date" name="flight">
+                    <input type="text" name="name">
+                </label>
+                <input type="submit" value="検索">
+            </fieldset>
+            <div class="button-container" style="display: flex; justify-content: space-around; margin: 20px 0;">
+                <a href="/today_flight" class="update-button"style="color: white;">本日のタンデム</a>
+                <a href="/line_message" class="update-button"style="color: white;">メッセ―ジ送信</a>
+                <a href="/delete" class="update-button"style="color: white;">削除ページ</a>
+                <a href="/top" class="update-button" style="color: white;">topページ</a>
+            </div>
+        </form>
+    </div>
+    <form action="/update_flight_status" method="post">
+        <button class="update-button">フライト状況を更新</button>
+        <div class="table-container">
+            <div class="name">
+                <span>ID</span>
+                <span>体験内容</span>
+                <span>フライト予定日時</span>
+                <span>フライト状況</span>
+                <span>名前</span>
+                <span>年齢</span>
+                <span>性別</span>
+                <span>住所</span>
+                <span>番号名</span>
+                <span>電話番号</span>
+                <span>緊急連絡先名</span>
+                <span>緊急連絡先電話番号</span>
+                <span>一人のレッスンへの興味</span>
+                <span>SNS投稿</span>
+                <span>ソース元</span>
+                <span>状況更新</span>
+                <span>情報更新</span>
+            </div>
+            <ul class="table-body">
+                <% users.forEach((item)=> { %>
+                    <li>
+                        <span class="name-column" data-label="ID:">
+                            <%= item.id %>
+                        </span>
+                        <span class="name-column" data-label="希望体験内容:">
+                            <%= item.level %>
+                        </span>
+                        <span class="name-column" data-label="フライト予定日時:">
+                            <%= item.flight %>
+                        </span>
+                        <span class="name-column" data-label="フライト状況:">
+                            <%= item.done %>
+                        </span>
+                        <span class="name-column" data-label="名前:">
+                            <%= item.name %>
+                        </span>
+                        <span class="name-column" data-label="年齢:">
+                            <%= item.age %>
+                        </span>
+                        <span class="name-column" data-label="性別:">
+                            <%= item.gender %>
+                        </span>
+                        <span class="name-column" data-label="住所:">
+                            <%= item.address2 %>
+                        </span>
+                        <span class="name-column" data-label="番号名:">
+                            <%= item.address3 %>
+                        </span>
+                        <span class="name-column" data-label="電話番号:">
+                            <%= item.phone %>
+                        </span>
+                        <span class="name-column" data-label="緊急連絡先(氏名):">
+                            <%= item.name2 %>
+                        </span>
+                        <span class="name-column" data-label="緊急連絡先(番号):">
+                            <%= item.number %>
+                        </span>
+                        <span class="name-column" data-label="一人のレッスンへの興味:">
+                            <%= item.solo %>
+                        </span>
+                        <span class="name-column" data-label="SNS投稿:">
+                            <%= item.sns %>
+                        </span>
+                        <span class="name-column" data-label="ソース元:">
+                            <%= item.source %>
+                        </span>
+                        <input class="name-column" type="checkbox" data-label="状況更新:" name="selectedUsers[]"
+                            value="<%= item.id %>">
+                        <span class="name-column" data-label="情報更新"></spanclass><a
+                                href="/update_management?name=<%= encodeURIComponent(item.id) %>"
+                                class="btn btn-primary">情報更新</a></span>
+                    </li>
+                    <% }) %>
+            </ul>
+        </div>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ削除ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        input[type="submit"] {
+            display: block;
+            background-color: #b92b2b;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #b92b2b;
+        }
+
+        .delete-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>データ削除ページ</h1>
+    <div class="buttons-container">
+        <a href="/management"class="button">顧客一覧へ戻る</a>
+        <a href="/today_flight"class="button">本日の顧客一覧</a>
+        <a href="/top"class="button">topへ戻る</a>
+    </div>
+    <form action="/delete_data" method="post">
+        <div class="delete-btn-container">
+            <input type="submit" value="削除する">
+        </div>
+        <p>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>性別</th>
+                <th>Email</th>
+                <th>住所</th>
+                <th>番号名</th>
+                <th>選択</th>
+            </tr>
+            <% users.forEach((user) => { %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.gender %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.address2 %></td>
+                    <td><%= user.address3 %></td>
+                    <td><input type="checkbox" name="delete_ids[]" value="<%= user.id %>"></td>
+                </tr>
+            <% }); %>
+        </table>
+        <div class="delete-btn-container">
+            <input type="submit" value="削除する">
+        </div>
+    </form>
+    <a href="/management">管理画面へ戻る</a>
+</body>
+</html>
+
+
+
+
+
+

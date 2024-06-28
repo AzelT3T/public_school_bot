@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>Soratomo-FORM</title>
+    <!--<link rel="stylesheet" href="/css/style.css">-->
+    <script src="/send_url.js"></script>
+    <meta name="viewport" content="width=480">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #E0F7FA; /* 薄い水色 */
+        padding-top: 2em;
+      }
+    
+      .container {
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+    
+      h1, h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    
+      form p {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+    
+      form input[type="text"], form select, form input[type="date"], form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+    
+      form input[type="submit"] {
+        background-color: #4FC3F7; /* 薄い空色 */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    
+      form input[type="submit"]:hover {
+        background-color: #039BE5; /* 濃い空色 */
+      }
+    
+      .modal-title {
+        color: #444;
+      }
+    
+      .modal-body {
+        color: #666;
+      }
+    
+      .btn-secondary {
+        color: #fff;
+        background-color: #B3E5FC; /* 薄い空色 */
+      }
+    
+      .btn-secondary:hover {
+        background-color: #81D4FA; /* 濃い空色 */
+      }
+
+      form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+    </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+        if (userId) {
+          document.getElementById('userId').value = userId;
+        }
+      } catch (error) {
+        alert('エラーが発生しました。ページを開きなおしてください。');
+      }
+    });
+  </script>
+  </head>
+  <body>
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">通知</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sign">
+      <div class="container">
+        <h1></h1>
+        <div class="panel">
+          <script>
+            $(document).ready(function() {
+              const message = "<%= message %>";
+              if (message) {
+                $('#modal-message').text(message);
+                $('#myModal').modal('show');
+              }
+            });
+            </script>
+          <h2>活動情報更新</h2>
+          <a href="/top" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;">topに戻る</a>
+          <form action="update_activity" method="post">
+            <p>名前</p>
+            <input type="text" required="required" name="name" value="<%= user ? user.name : '' %>" readonly>
+            <p>日付</p>
+            <input id="date" type="date" required="required" name="date" value="<%= user ? user.date : '' %>">
+            <p>場所</p>
+            <select name="area">
+              <% ['空パーク', '衣笠山', '高塚', '竜ヶ岩', 'その他'].forEach(function(area) { %>
+                <option value="<%= area %>" <%= user && user.area === area ? 'selected' : '' %>><%= area %></option>
+              <% }); %>
+            </select>
+            <p>練習時間</p>
+            <select name="hours">
+              <% for (let i = 1; i <= 9; i++) { %>
+                <option value="<%= i %>" <%= user && user.hours === i ? 'selected' : '' %>><%= i %></option>
+              <% } %>
+            </select>
+            <p>コメント</p>
+            <textarea id="comments" name="comments" rows="4" cols="50" maxlength="1000"><%= user ? user.comments : '' %></textarea>
+            <p>画像・動画URL</p>
+            <input type="text" id="uploaded-file-url" name="uploadedFileUrl" value="<%= user ? user.upload_url : '' %>" >
+            <p>ファイルを再アップロード(既存のファイルは削除されます。):</p>
+            <input id="file-to-upload" type="file">
+            <p id="upload-results"></p>
+            <input type="hidden" id="id" name="id" value="<%= user ? user.id : '' %>">
+            <input type="hidden" id="userId" name="userId" value="<%= user ? user.userId : '' %>">
+            <input type="submit" value="送信する">
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      try {
+          AWS.config.region = 'ap-northeast-1';
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: 'ap-northeast-1:bbb4def6-d61f-436b-880a-a369dbc50450',
+          });
+          
+          var bucketName = 'sorarogu-sns';
+          var bucket = new AWS.S3({
+              params: {
+                  Bucket: bucketName
+              }
+          });
+          
+          var fileChooser = document.getElementById('file-to-upload');
+          var button = document.getElementById('upload-button');
+          var results = document.getElementById('upload-results');
+          
+          document.querySelector('form').addEventListener('submit', function (event) {
+              try {
+                  var file = document.getElementById('file-to-upload').files[0];
+                  
+                  if (file) {
+                      event.preventDefault();  // フォーム送信を一時停止
+                      var results = document.getElementById('upload-results');
+                      results.innerHTML = '';
+                      
+                      var params = {
+                          Key: file.name,
+                          ContentType: file.type,
+                          Body: file,
+                          ACL: 'public-read'
+                      };
+                      
+                      var upload = bucket.upload(params);
+                      
+                      upload.on('httpUploadProgress', function(evt) {
+                          var percentage = parseInt((evt.loaded * 100) / evt.total);
+                          results.innerHTML = 'アップロード進捗: ' + percentage + '%';
+                      });
+                      
+                      upload.send(function(err, data) {
+                          if (err) {
+                              results.innerHTML = 'ERROR: ' + err;
+                              throw new Error('AWS S3 アップロードエラー');
+                          } else {
+                              results.innerHTML = 'アップロードが完了しました。';
+                              document.getElementById('uploaded-file-url').value = data.Location;
+                              event.target.submit();
+                          }
+                      });
+                  }
+              } catch (e) {
+                  console.error('フォーム送信時のエラー:', e);
+                  alert('アップロード中にエラーが発生しました。再度お試しください。');
+              }
+          });
+      } catch (e) {
+          console.error('初期設定エラー:', e);
+          alert('ページ読み込み中にエラーが発生しました。ページを再読み込みしてください。');
+      }
+  </script>  
+  </body>
+</html>

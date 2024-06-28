@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <title>MANAGEMENT APP</title>
+    <link rel="stylesheet" href="/css/management.css">
+    <script src="/send_url.js"></script>
+    <style>
+
+.name2{
+  position:absolute;
+}
+
+.age{
+  position:absolute;
+  left:135px;
+  margin-top: 0px;
+}
+
+.gender{
+  position:absolute;
+  left:210px;
+  margin-top: 0px;
+}
+
+.level{
+  position:relative;
+  left:230px;
+  margin-top:0px;
+}
+
+.gakunen{
+  position:absolute;
+  left:315px;
+  margin-top: -23px;
+}
+
+.address2{
+  position:absolute;
+  left:435px;
+  margin-top: -23px;
+}
+
+.address3{
+  position:absolute;
+  left:630px;
+  margin-top: -23px;
+}
+
+.phone{
+  position:absolute;
+  left:890px;
+  margin-top: -23px;
+}
+
+.search_button{
+  position:relative;
+  left: 150px;
+}
+
+.tandemu{
+  position:relative;
+  left: 150px;
+}
+
+.filter_checkbox{
+  position:relative;
+  left:1350px;
+  top:133px;
+}
+
+.syusseki{
+  position: fixed;
+  right:250px;
+  top:195px;
+}
+
+.button{
+  position: absolute;
+  top:-50px;
+}
+
+.zyuusyo{
+  position:relative;
+  left: 80px;
+}
+
+.message{
+  position:relative;
+  left:1550px;
+  top: 300px;
+}
+
+.name{
+  position:absolute;
+  top:100px;
+  left:300px;
+  white-space: nowrap;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="name">
+          <span>　　　　　　名前</span>
+          <span>　　年齢</span>
+          <span>　性別</span>
+          <span>　コース</span>
+          <span>　　　学年</span>
+          <span>　　　　　　　住所</span>
+          <span>　　　　　　　　　　　番号名</span>
+          <span>　　　　　　　　　電話番号</span>
+        <ul>
+          <% users.forEach((item) => { %>
+            <li>
+                <div class="name2">
+                <span>　　</span>
+                <span class="name-column"><%=item.name %></span></div>
+                <div class="age">
+                <span>　　</span>
+                <span class="name-column"><%=item.age %></span></div>
+                <div class="gender">
+                <span>　</span>
+                <span class="name-column"><%=item.gender %></span></div>
+                <div class="level">
+                <span>　</span>
+                <span class="name-column"><%=item.level %></span></div>
+                <div class = "gakunen">
+                <span>　　</span>
+                <span class="name-column"><%=item.gakunen %></span></div>
+                <div class="address2">
+                <span>　</span>
+                <span class="name-column"><%=item.address2 %></span></div>
+                <div class="address3">
+                <span>　</span>
+                <span class="name-column"><%=item.address3 %></span></div>
+                <div class="phone">
+                <span>　</span>
+                <span class="name-column"><%=item.phone %></span></div>
+            </li>
+            <p></p>
+          <% }) %>
+      </div>
+        <div class="filter_checkbox">
+        <form action="/delete_done" method="post">
+           <input type="checkbox" id="1" name="checkbox_1">
+           <p><input type="checkbox" id="2" name="checkbox_2"></p>
+           <p><input type="checkbox" id="3" name="checkbox_3"></p>
+           <p><input type="checkbox" id="4" name="checkbox_4"></p>
+           <p><input type="checkbox" id="5" name="checkbox_5"></p>
+           <p><input type="checkbox" id="6" name="checkbox_6"></p>
+           <p><input type="checkbox" id="7" name="checkbox_7"></p>
+           <p><input type="checkbox" id="8" name="checkbox_8"></p>
+           <p><input type="checkbox" id="9" name="checkbox_9"></p>
+           <p><input type="checkbox" id="10" name="checkbox_10"></p>
+           <p><input type="checkbox" id="11" name="checkbox_11"></p>
+           <p><input type="checkbox" id="12" name="checkbox_12"></p>
+           <p><input type="checkbox" id="13" name="checkbox_13"></p>
+           <p><input type="checkbox" id="14" name="checkbox_14"></p>
+           <p><input type="checkbox" id="15" name="checkbox_15"></p>
+           <p><input type="checkbox" id="16" name="checkbox_16"></p>
+           <p><input type="checkbox" id="17" name="checkbox_17"></p>
+           <p><input type="checkbox" id="18" name="checkbox_18"></p>
+           <p><input type="checkbox" id="19" name="checkbox_19"></p>
+           <p><input class="button" href="/delete_done" type="submit" value="削除する"></p>
+          </form>
+          <a href="https://linebotkoubun.herokuapp.com/delete_page2">2ページ目へ</a>
+      </div>
+  </body>
+</html>

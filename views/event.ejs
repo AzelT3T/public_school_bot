@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>イベント作成</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>イベント追加ページ</h2>
+        <form action="/create_event" method="POST">
+            <label for="event_name">イベント名:</label><br>
+            <input type="text" id="event_name" name="event_name" required><br>
+
+            <label for="event_detail">イベント詳細:</label><br>
+            <textarea id="event_detail" name="event_detail" required></textarea><br>
+
+            <label for="event_date">イベント日付:</label><br>
+            <input type="date" id="event_date" name="event_date" required><br>
+
+            <input type="submit" value="イベント作成">
+        </form>
+    </div>
+</body>
+</html>

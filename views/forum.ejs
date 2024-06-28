@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>message-send</title>
+    <script src="/send_url.js"></script>
+  </head>
+  <body>
+    <div class="sign">
+      <div class="container">
+        <h1></h1>
+        <div class="panel">
+          <form action="/all" method="post">
+            <p>全員に送信</p>
+            <input type="text" name="all">
+            <input type="submit" value="送信する">
+          </form>
+          <form action="/man" method="post">
+            <p>男を選択した方にのみ送信</p>
+            <input type="text" name="man">
+            <input type="submit" value="送信する">
+          </form>
+          <form action="/famale" method="post">
+            <p>女を選択した方にのみ送信</p>
+            <input type="text" name="famale">
+            <input type="submit" value="送信する">
+          </form>
+          <form action="/school" method="post">
+            <p>スクール体験を選択した方にのみ送信</p>
+            <input type="text" name="school">
+            <input type="submit" value="送信する">
+          </form>
+          <form action="/tandemu" method="post">
+            <p>タンデム体験を選択した方にのみ送信</p>
+            <input type="text" name="tandemu">
+            <input type="submit" value="送信する">
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

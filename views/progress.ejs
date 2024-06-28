@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>学習進捗確認</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .major-unit {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin: 0;
+            background-color: #e9e9e9;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+        }
+
+        h2:after {
+            float: right;
+        }
+
+        h2.active:after {
+            content: "-";
+        }
+
+        .category-title {
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-title:hover {
+            background-color: #e9e9e9;
+        }
+
+        .category-title:after {
+            content: "+";
+            color: #333;
+            font-weight: bold;
+        }
+
+        .category-title.active:after {
+            content: "-";
+        }
+
+        .unit {
+            display: none;
+            padding: 10px;
+        }
+
+        .unit.show {
+            display: block;
+        }
+
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+                /* スマホでは小さめの見出し */
+            }
+
+            .major-unit,
+            h2,
+            .category-title {
+                margin: 0;
+                padding: 10px;
+                border-radius: 0;
+                /* 角丸をなくす */
+                border-left: none;
+                border-right: none;
+                box-shadow: none;
+                /* 影をなくす */
+            }
+
+            .category-title,
+            .unit {
+                padding-left: 15px;
+                /* テキストに余白を持たせる */
+                padding-right: 15px;
+            }
+
+            .category-title:after,
+            h2:after {
+                /* プラス記号とマイナス記号のサイズを調整 */
+                font-size: 20px;
+            }
+
+            .unit {
+                /* チェックボックスのスタイルを調整 */
+                padding: 5px 0;
+            }
+
+            input[type="checkbox"] {
+                /* スマートフォンでタッチしやすいようにチェックボックスのサイズを調整 */
+                transform: scale(1.5);
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <% if (completedUnits.length > 0) { %>
+        <h1><%= completedUnits[0].name %>の学習進捗状況</h1>
+    <% } else { %>
+        <h1>学習進捗状況</h1>
+    <% } %>
+    <a href="/school_management" id="backLink">戻る</a>
+    <% Object.keys(units).forEach(level => { %>
+        <div class="major-unit">
+            <h2>
+                <%= level %>
+            </h2> <!-- 大単元名の表示 -->
+            <div>
+                <div class="category-title" onclick="toggleUnits('<%= level %>', '実技')">
+                    +実技
+                </div>
+                <div id="<%= level %>-実技" class="unit">
+                    <% units[level]['実技'].forEach(unit => { %>
+                        <div>
+                            <input type="checkbox" 
+                                <% if (completedUnits.some(completedUnit => completedUnit.grade === unit.id)) { %>
+                                    checked 
+                                <% } %> 
+                                disabled>
+                            <%= unit.name %>
+                        </div>
+                    <% }); %>
+                </div>
+                <div class="category-title" onclick="toggleUnits('<%= level %>', '学科')">
+                    +学科
+                </div>
+                <div id="<%= level %>-学科" class="unit">
+                    <% units[level]['学科'].forEach(unit => { %>
+                        <div>
+                            <input type="checkbox" 
+                                <% if (completedUnits.some(completedUnit => completedUnit.grade === unit.id)) { %>
+                                    checked 
+                                <% } %> 
+                                disabled>
+                            <%= unit.name %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+
+            <script>
+                function toggleUnits(level, category) {
+                    var element = document.getElementById(level + '-' + category);
+                    var isDisplayed = element.style.display === 'block';
+                    element.style.display = isDisplayed ? 'none' : 'block';
+                }
+            </script>
+</body>
+
+</html>

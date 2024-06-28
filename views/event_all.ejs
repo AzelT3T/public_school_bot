@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>イベントカレンダー</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .calendar {
+            width: calc(100% - 20px);
+            max-width: 800px; /* カレンダーの最大幅を800pxに変更 */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 15px;
+        }
+
+        .day {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+            position: relative;
+            height: 60px;
+        }
+
+        .event {
+            font-size: 12px;
+            color: #007BFF;
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            right: 1px;
+            white-space: nowrap;
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .calendar {
+                max-width: 95%;
+            }
+
+            .calendar-grid {
+                grid-gap: 5px;
+            }
+
+            .day {
+                padding: 8px; 
+                height: auto;
+                min-height: 60px;
+            }
+
+            .event {
+                font-size: 10px; 
+                right: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>イベントカレンダー</h1>
+    <div class="calendar">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)">&lt;</button>
+            <h2 id="month-year"></h2>
+            <button onclick="changeMonth(1)">&gt;</button>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+    </div>
+
+    <script>
+        const events = <%- JSON.stringify(events) %>;
+        const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        function changeMonth(diff) {
+            currentMonth += diff;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear -= 1;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear += 1;
+            }
+            loadCalendar();
+        }
+
+        function loadCalendar() {
+            const calendarGrid = document.getElementById('calendar');
+            calendarGrid.innerHTML = '';
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendarGrid.appendChild(document.createElement('div'));
+            }
+            
+            for (let i = 1; i <= lastDay; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'day';
+                dayDiv.innerHTML = i;
+                
+                const eventDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const event = events.find(e => e.event_date.split('T')[0] === eventDate);
+                if (event) {
+                    const eventLink = document.createElement('a');
+                    eventLink.href = `/events/${event.event_id}`;
+                    eventLink.className = 'event';
+                    eventLink.innerText = event.event_name;
+                    dayDiv.appendChild(eventLink);
+                }
+                calendarGrid.appendChild(dayDiv);
+            }
+            document.getElementById('month-year').innerText = `${monthNames[currentMonth]} ${currentYear}`;
+        }
+
+        loadCalendar();
+    </script>
+</body>
+
+</html>

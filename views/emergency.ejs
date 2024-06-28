@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>緊急連絡先情報</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            font-size: 24px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .contacts {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .contact {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .contact h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .contact ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #f2f2f2;
+        }
+
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .contacts {
+                display: flex;
+                justify-content: space-around;
+                padding: 0 10%;
+                flex-wrap: wrap;
+            }
+
+            .contact {
+                width: 40%;
+                margin-bottom: 25px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>緊急連絡先情報</h1>
+        <div class="buttons-container">
+            <a href="/school_management" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"class="button">スクール生一覧へ戻る</a>
+            <a href="/top" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"class="button">TOPに戻る</a>
+        </div>
+    </header>
+    <section class="contacts">
+        <div class="contact">
+            <h2>緊急連絡先1</h2>
+            <ul>
+                <li>番号: <%= user.emergency_contact1_number %>
+                </li>
+                <li>氏名: <%= user.emergency_contact1_name %>
+                </li>
+                <li>続柄: <%= user.emergency_contact1_relationship %>
+                </li>
+                <li>許可: <%= user.emergency_contact1_approved %>
+                </li>
+            </ul>
+        </div>
+        <div class="contact">
+            <h2>緊急連絡先2</h2>
+            <ul>
+                <li>番号: <%= user.emergency_contact2_number %>
+                </li>
+                <li>氏名: <%= user.emergency_contact2_name %>
+                </li>
+                <li>続柄: <%= user.emergency_contact2_relationship %>
+                </li>
+                <li>許可: <%= user.emergency_contact2_approved %>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+
+</html>

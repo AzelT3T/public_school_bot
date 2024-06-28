@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>イベント詳細</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-size: 15px;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            background-color: #004391;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        .event-detail {
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-participants {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .event-participants li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-participants li:last-child {
+            border-bottom: none;
+        }
+
+        .event-participants li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .participation-status {
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .participation-separator {
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+            margin: 10px 0;
+        }
+
+        /* 既存のスタイルに追加 */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 20px 0;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 500px;
+            border-radius: 4px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 500px;
+            border-radius: 4px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .paypay-logo {
+            width: 20px;
+            /* お好みのサイズに調整 */
+            height: auto;
+            vertical-align: middle;
+            margin-right: 8px;
+            /* ロゴとテキストの間のスペース */
+        }
+
+
+        @media (max-width: 800px) {
+
+            h1,
+            h2 {
+                font-size: 1.2em;
+            }
+
+            p {
+                font-size: 0.9em;
+            }
+
+            .event-detail {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="event-detail">
+        <h2>イベント概要</h2>
+        <p>イベント名: <%= event.event_name %>
+        </p>
+        <p>イベント詳細: <%= event.event_detail %>
+        </p>
+        <h2>イベント支払状況</h2>
+        <ul class="event-participants">
+            <% participants.forEach(participant=> { %>
+                <li>
+                    <span>
+                        <%= participant.name %>
+                    </span>
+
+                    <!-- 支払い状況に応じてボタンまたはテキストを表示 -->
+                    <% if (participant.payment_status==='Unpaid' ) { %>
+                        <!-- 未支払いの場合、ボタンを表示 -->
+                        <button onclick="openModal('<%= participant.id %>')">参加確認＆支払い</button>
+
+                        <!-- モーダルウィンドウ -->
+                        <div id="modal-<%= participant.id %>" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal('<%= participant.id %>')">&times;</span>
+                                <h3>支払方法の選択</h3>
+                                <button onclick="changePaymentMethod('<%= participant.id %>', 'Cash')">現金</button>
+                                <button onclick="changePaymentMethod('<%= participant.id %>', 'Paypay')">
+                                    <img src="https://iconlab.kentakomiya.com/wp/wp-content/uploads/2019/06/icon0084.png" alt="PayPay" class="paypay-logo"> PayPay
+                                </button>
+                                
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <!-- 支払い済みの場合、テキストを表示 -->
+                            <span>
+                                支払い済み:
+                                <%= participant.payment_method==='Cash' ? '現金' : (participant.payment_method==='Paypay'
+                                    ? 'PayPay' : '未定' ) %>
+                            </span>
+                            <% } %>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById('modal-' + id).style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById('modal-' + id).style.display = 'none';
+        }
+
+        function changePaymentMethod(participantId, method) {
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/update-payment-method');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    location.reload();
+                }
+            };
+
+            const data = {
+                participantId: participantId,
+                paymentMethod: method
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+
+</html>

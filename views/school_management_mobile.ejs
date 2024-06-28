@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スクール生一覧</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      background-color: #f5f5f5;
+    }
+
+    .header {
+      background-color: #333;
+      color: rgb(255, 255, 255);
+      font-size: 24px;
+      padding:  15px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-container {
+      justify-content: center;
+      padding:  15px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      margin-bottom:  15px;
+    }
+
+    .card-container {
+      padding:  15px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap:  15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    .card-label {
+      font-weight: bold;
+    }
+
+    button,
+    input[type="submit"],
+    input[type="radio"] {
+      font-size: 10px;
+      padding: 4px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover,
+    input[type="submit"]:hover,
+    input[type="radio"]:hover {
+      background-color: #555;
+    }
+
+    input[type="date"] {
+      font-size: 10px;
+      padding: 4px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .Flight_submit_button {
+      width: 100%;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background-color: #f2f2f2;
+      padding:  15px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .button {
+      font-size: 10px;
+      color: #000;
+      background-color: #fff;
+      border: 1px solid #000;
+      padding: 10px  15px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      margin: 0 10px;
+    }
+
+    .button:hover {
+      background-color: #f2f2f2;
+    }
+
+
+    #searchForm {
+      width: 90%;
+      margin: auto;
+      padding:  15px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    fieldset {
+      border: none;
+    }
+
+    legend {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    #searchRow {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+
+    .inputContainer label {
+      margin-bottom: 5px;
+    }
+
+    .inputContainer input[type="text"],
+    .inputContainer select {
+      height: 40px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .inputContainer input[type="submit"] {
+      height: 40px;
+      padding: 10px;
+      color: #fff;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .inputContainer input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 1500px) {
+      body {
+        overflow-x: hidden;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size:  15px;
+        background-color: #f4f4f4;
+      }
+
+      a {
+        font-size:  15px;
+        padding:  15px 30px;
+        border-radius: 10px;
+      }
+
+      .card-container {
+        font-family: Arial, sans-serif;
+      }
+
+      .card-container .card h2,
+      .card-container .card p {
+        font-size:  15px;
+      }
+
+      .buttons-container {
+        font-size:  15px;
+        padding:  15px 30px;
+        border-radius: 10px;
+      }
+
+      form input[type="date"] {
+        font-size:  15px;
+        padding: 10px;
+        height: 50px;
+      }
+      input[type="checkbox"] {
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    スクール生一覧
+  </header>
+  <div class="container">
+    <div class="buttons-container">
+      <a href="/activity_management" class="button" style="color: black;">活動報告一覧ページへ</a>
+      <a href="/delete_school" class="button" style="color: black;">削除ページへ</a>
+      <a href="/top" class="button" style="color: black;">topへ</a>
+      <a href="/event" class="button" style="color: black;">イベント作成ページへ</a>
+      <a href="/events_all" class="button" style="color: black;">イベント一覧ページへ</a>
+    </div>
+    <form method="POST" action="/search_school" id="searchForm">
+      <fieldset>
+        <legend>検索</legend>
+        <div id="searchRow">
+          <div class="inputContainer">
+            <label for="name">名前:</label>
+            <input type="text" id="name" name="name" placeholder="名前を入力">
+          </div>
+          <div class="inputContainer">
+            <label for="qualification">資格情報:</label>
+            <select id="qualification" name="qualification">
+              <option value="">すべて</option>
+              <option value="none">無し</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="NP">NP</option>
+              <option value="P">P</option>
+              <option value="XC">XC</option>
+            </select>
+          </div>
+          <div class="inputContainer">
+            <input type="submit" value="検索">
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <form action="/update_flight_status" method="post">
+      <div class="card-container">
+        <% users.forEach((item)=> { %>
+          <div class="card">
+            <div class="card-label">名前:</div>
+            <div>
+              <%= item.name %>
+            </div>
+            <div class="card-label">ヨミ:</div>
+            <div>
+              <%= item.name_reading %>
+            </div>
+            <div class="card-label">性別：</div>
+            <div>
+              <%= item.gender %>
+            </div>
+            <div class="card-label">電話番号:</div>
+            <div>
+              <%= item.mobile_number %>
+            </div>
+            <div class="card-label">email:</div>
+            <div>
+              <%= item.email %>
+            </div>
+            <div class="card-label">郵便番号:</div>
+            <div>
+              <%= item.postal_code %>
+            </div>
+            <div class="card-label">住所:</div>
+            <div>
+              <%= item.address %>
+            </div>
+            <div class="card-label">生年月日:</div>
+            <% let formatted_date='' ; if (item.birth_date) { let date=new Date(item.birth_date);
+              formatted_date=date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" +
+              date.getDate()).slice(-2); } %>
+              <div>
+                <%= formatted_date %>
+              </div>
+              <div class="card-label">身長:</div>
+              <div>
+                <%= item.height %>
+              </div>
+              <div class="card-label">体重:</div>
+              <div>
+                <%= item.weight %>
+              </div>
+              <div class="card-label">血液型:</div>
+              <div>
+                <%= item.blood_type %>
+              </div>
+              <div class="card-label">血液型Rh:</div>
+              <div>
+                <%= item.blood_type_Rh %>
+              </div>
+              <div class="card-label">資格情報:</div>
+              <div>
+                <%= item.qualifications %>
+              </div>
+              <div class="card-label">フライヤー登録番号:</div>
+              <div>
+                <%= item.flyer_registration_number %>
+              </div>
+              <div class="card-label">勤務先:</div>
+              <div>
+                <%= item.workplace %>
+              </div>
+              <div class="card-label">勤務先番号:</div>
+              <div>
+                <%= item.workplace_phone_number %>
+              </div>
+              <div class="card-label">身体の異常等:</div>
+              <div>
+                <%= item.health_concerns %>
+              </div>
+              <div class="card-label">緊急連絡先:</div>
+              <div><a href="/Emergency?name=<%= encodeURIComponent(item.id) %>" class="btn btn-primary">緊急連絡先</a></div>
+              <div class="card-label">日報:</div>
+              <div><a href="/activity?name=<%= encodeURIComponent(item.lineid) %>" class="btn btn-primary">日報</a></div>
+              <div class="card-label">学習進捗:</div>
+              <div><a href="/progress/<%= item.id %>" class="btn btn-primary">学習進捗</a></div>
+              <div class="card-label">更新:</div>
+              <div><a href="/update_SchoolUsers?name=<%= encodeURIComponent(item.id) %>" class="btn btn-primary">更新</a>
+              </div>
+          </div>
+          <% }) %>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

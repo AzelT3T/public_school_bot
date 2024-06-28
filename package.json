@@ -1,0 +1,37 @@
+{
+  "name": "test-bot4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@line/bot-sdk": "^7.5.2",
+    "@mapbox/togeojson": "^0.16.0",
+    "@paypayopa/paypayopa-sdk-node": "^2.1.0",
+    "@turf/turf": "^6.5.0",
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cesium": "^1.107.2",
+    "cheerio": "^1.0.0-rc.12",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.5",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.2",
+    "express-session": "^1.17.3",
+    "jsdom": "^22.1.0",
+    "koa": "^2.13.4",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.3.1",
+    "nodemon": "^2.0.15"
+  }
+}

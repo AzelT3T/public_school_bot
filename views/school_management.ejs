@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>スクール生一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            font-size: 24px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        /* コンテナと検索欄のスタイル */
+        .table-section {
+            flex: 1;
+            min-width: 60%;
+            order: 2;
+        }
+
+        .search {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 25px;
+            padding-bottom: 0px;
+        }
+
+        .search form {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search form a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .search form a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            max-width: 100%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        legend {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            display: block;
+            margin-bottom: 15px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .name {
+            background-color: #555555;
+            color: white;
+            display: flex;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .name span {
+            flex: 1;
+            text-align: center;
+        }
+
+        .table-body {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-body li {
+            background-color: white;
+            background-size: 100% auto;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            padding: 10px;
+        }
+
+        .table-body li:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        .name-column {
+            flex: 1;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #555555;
+            background-color: #555555;
+            border: 1px solid #555555;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #555555;
+        }
+
+        #searchForm {
+            width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #searchForm {
+            width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+
+
+        #searchForm {
+            width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #searchForm {
+            width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #searchRow {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Change to align the horizontal lines */
+        }
+
+        .inputContainer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 10px;
+        }
+
+        .inputContainer:last-child {
+            align-self: flex-start;
+        }
+
+        .inputContainer label {
+            width: 100px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .inputContainer input[type="text"],
+        .inputContainer select {
+            width: calc(100% - 110px);
+            /* 110px is the width of the label plus its margin */
+            height: 40px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            /* Include padding and border in element's total width and height */
+        }
+
+        .inputContainer input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .inputContainer input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        スクール生一覧
+    </header>
+    <div class="buttons-container">
+        <a href="/activity_management" class="button" style="color: white;">活動報告一覧ページへ</a>
+        <a href="/delete_school" class="button" style="color: white;">削除ページへ</a>
+        <a href="/top" class="button" style="color: white;">topページへ</a>
+        <a href="/event" class="button" style="color: white;">イベント作成ページへ</a>
+        <a href="/events_all" class="button" style="color: white;">イベント一覧ページへ</a>
+    </div>
+    <div class="search">
+        <form method="POST" action="/search_school" id="searchForm">
+            <fieldset>
+                <legend>検索</legend>
+                <div id="searchRow">
+                    <div class="inputContainer">
+                        <label for="name">名前:</label>
+                        <input type="text" id="name" name="name" placeholder="名前を入力">
+                    </div>
+                    <div class="inputContainer">
+                        <label for="qualification">資格情報:</label>
+                        <select id="qualification" name="qualification">
+                            <option value="">すべて</option>
+                            <option value="none">無し</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="NP">NP</option>
+                            <option value="P">P</option>
+                            <option value="XC">XC</option>
+                        </select>
+                    </div>
+                    <div class="inputContainer">
+                        <input type="submit" value="検索">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="table-container">
+        <div class="name">
+            <span>名前</span>
+            <span>ヨミ</span>
+            <span>性別</span>
+            <span>電話番号</span>
+            <span>郵便番号</span>
+            <span>住所</span>
+            <span>生年月日</span>
+            <span>email</span>
+            <span>身長</span>
+            <span>体重</span>
+            <span>血液型</span>
+            <span>血液型Rh</span>
+            <span>フライヤー登録番号</span>
+            <span>資格情報</span>
+            <span>勤務先</span>
+            <span>勤務先番号</span>
+            <span>身体の異常等</span>
+            <span>緊急連絡先</span>
+            <span>日報</span>
+            <span>学習進捗</span>
+            <span>更新</span>
+        </div>
+        <ul class="table-body">
+            <% users.forEach((item)=> { %>
+                <li>
+                    <span class="name-column" data-label="名前">
+                        <%= item.name %>
+                    </span>
+                    <span class="name-column" data-label="ヨミ">
+                        <%= item.name_reading %>
+                    </span>
+                    <span class="name-column" data-label="性別">
+                        <%= item.gender %>
+                    </span>
+                    <span class="name-column" data-label="電話番号">
+                        <%= item.mobile_number %>
+                    </span>
+                    <span class="name-column" data-label="郵便番号">
+                        <%= item.postal_code %>
+                    </span>
+                    <span class="name-column" data-label="住所">
+                        <%= item.address %>
+                    </span>
+                    <span class="name-column" data-label="生年月日">
+                        <% let formatted_date='' ; if (item.birth_date) { let date=new Date(item.birth_date);
+                            formatted_date=date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +
+                            ("0" + date.getDate()).slice(-2); } %>
+                            <%= formatted_date %>
+                    </span>
+                    <span class="name-column" data-label="email">
+                        <%= item.email %>
+                    </span>
+                    <span class="name-column" data-label="身長">
+                        <%= item.height %>
+                    </span>
+                    <span class="name-column" data-label="体重">
+                        <%= item.weight %>
+                    </span>
+                    <span class="name-column" data-label="血液型">
+                        <%= item.blood_type %>
+                    </span>
+                    <span class="name-column" data-label="血液型Rh">
+                        <%= item.blood_type_Rh %>
+                    </span>
+                    <span class="name-column" data-label="フライヤー登録番号">
+                        <%= item.flyer_registration_number %>
+                    </span>
+                    <span class="name-column" data-label="資格情報">
+                        <%= item.qualifications %>
+                    </span>
+                    <span class="name-column" data-label="勤務先">
+                        <%= item.workplace %>
+                    </span>
+                    <span class="name-column" data-label="勤務先番号">
+                        <%= item.workplace_phone_number %>
+                    </span>
+                    <span class="name-column" data-label="身体の異常等">
+                        <%= item.health_concerns %>
+                    </span>
+                    <span class="name-column" data-label="緊急連絡先"></spanclass><a
+                            href="/Emergency?name=<%= encodeURIComponent(item.id) %>"
+                            class="btn btn-primary">緊急連絡先</a></span>
+                    <span class="name-column" data-label="日報"></spanclass><a
+                            href="/activity?name=<%= encodeURIComponent(item.lineid) %>"
+                            class="btn btn-primary">日報</a></span>
+                    <span class="name-column" data-label="学習進捗"></spanclass><a
+                            href="/progress/<%= item.id %>"
+                            class="btn btn-primary">学習進捗</a></span>
+                    <span class="name-column" data-label="更新"></spanclass><a
+                            href="/update_SchoolUsers?name=<%= encodeURIComponent(item.id) %>"
+                            class="btn btn-primary">更新</a></span>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
+    </form>
+</body>
+
+</html>

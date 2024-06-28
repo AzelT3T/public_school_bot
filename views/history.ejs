@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <title>メッセージ履歴</title>
+    <style>
+        body,
+        pre,
+        p,
+        h1,
+        li,
+        a {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .toggle-icon {
+            margin-left: 10px;
+            border: solid #777;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+            cursor: pointer;
+        }
+
+        .message-item.active .toggle-icon {
+            transform: rotate(-135deg);
+        }
+
+        .message-detail img {
+            max-width: 500px;
+            height: auto;
+        }
+
+        .message-detail {
+            display: none;
+        }
+
+        .message-item.active .message-detail {
+            display: block;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* ↓ 追加: オーバーフローの制御 */
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            color: #333;
+        }
+
+        .message-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .message-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px;
+        }
+
+        .message-content img {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .message-text {
+            margin: 0;
+            word-wrap: break-word;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #007BFF;
+            padding: 5px 10px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .sent-time,
+        .sent-to {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .message-content {
+            /* 追加: オーバーフローの制御 */
+            overflow: hidden;
+        }
+
+        pre.message-text {
+            white-space: pre-wrap;
+            /* CSS3 */
+            white-space: -moz-pre-wrap;
+            /* Firefox */
+            white-space: -pre-wrap;
+            /* Opera <7 */
+            white-space: -o-pre-wrap;
+            /* Opera 7 */
+            word-wrap: break-word;
+            /* IE */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .message-item {
+                padding: 10px;
+            }
+
+            /* 追加: 画像が大きすぎる場合に対応 */
+            .message-content img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>メッセージ履歴</h1>
+        <a href="/line_message" class="button">メッセージ送信画面へ戻る</a>
+        <ul class="message-list">
+            <% messages.forEach((message)=> { %>
+                <li class="message-item" onclick="toggleDetail(this)">
+                    <p class="sent-time">送信日時: <%= new Date(message.sentAt).toLocaleString() %>
+                    <span class="toggle-icon"></span></p>
+                    <div class="message-detail">
+                        <% if (message.imageUrl) { %>
+                            <img src="<%= message.imageUrl %>" alt="Message Image">
+                        <% } %>
+                        <pre class="message-text"><%- message.textContent %></pre>
+                        <% if (message.linkUrl) { %>
+                            <a href="<%= message.linkUrl %>" target="_blank">リンクを開く</a>
+                        <% } %>
+                        <p class="sent-to">検索情報</p>
+                        <p class="sent-to">フライト状況: <%= message.flightStatus %></p>
+                        <p class="sent-to">性別: <%= message.gender %></p>
+                        <p class="sent-to">レッスンへの興味: <%= message.lessonInterest %></p>
+                        <p class="sent-to">フライト予定日時: 
+                            <% if (message.flightDate) { %>
+                                <%= new Date(message.flightDate).toLocaleDateString() %>
+                            <% } else { %>
+                                なし
+                            <% } %>
+                        </p>
+                        <p class="sent-to">送信先: <%= message.users.join(', ') %></p>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+    <script>
+        function toggleDetail(element) {
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+            } else {
+                element.classList.add('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

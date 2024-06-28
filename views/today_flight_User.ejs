@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本日のタンデム一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        .delete-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        input[type="submit"][value="○"] {
+            background-color: #4ac25a;
+            color: white;
+        }
+
+        input[type="submit"][value="○"]:hover {
+            background-color: #388e3c;
+        }
+
+        input[type="submit"][value="×"] {
+            background-color: #f44336;
+            color: white;
+        }
+
+        input[type="submit"][value="×"]:hover {
+            background-color: #c62828;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #f2f2f2;
+        }
+
+        .button-container form input[type="submit"]:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>本日のタンデム一覧</h1>
+    <div class="buttons-container">
+        <a href="/management" class="button">顧客一覧へ戻る</a>
+        <a href="/top" class="button">topへ</a>
+    </div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>性別</th>
+            <th>電話番号</th>
+            <th>緊急連絡先電話番号</th>
+            <th>身長</th>
+            <th>体重</th>
+            <th>血液型</th>
+            <th>フライト状況</th>
+        </tr>
+        <% users.forEach((user)=> { %>
+            <tr>
+                <td>
+                    <%= user.id %>
+                </td>
+                <td>
+                    <%= user.name %>
+                </td>
+                <td>
+                    <%= user.gender %>
+                </td>
+                <td>
+                    <%= user.phone %>
+                </td>
+                <td>
+                    <%= user.number %>
+                </td>
+                <td>
+                    <%= user.height %>
+                </td>
+                <td>
+                    <%= user.weight %>
+                </td>
+                <td>
+                    <%= user.Bloodtype %>
+                </td>
+                <td>
+                    <%= user.done %>
+                </td>
+                <td>
+                    <div class="button-container">
+                        <form action="/update_flight" method="post">
+                            <input type="hidden" name="userId" value="<%= user.id %>">
+                            <input type="submit" value="○">
+                        </form>
+                        <form action="/update_flight_false" method="post">
+                            <input type="hidden" name="userId" value="<%= user.id %>">
+                            <input type="submit" value="×">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <% }); %>
+    </table>
+    <a href="/management">一覧表示ページへ戻る</a>
+    <script>
+        window.onscroll = function () {
+            localStorage.setItem('scrollPosition', window.scrollY || document.documentElement.scrollTop);
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem('scrollPosition') !== null) {
+                window.scrollTo(0, localStorage.getItem('scrollPosition'));
+            }
+        }
+    </script>
+</body>
+
+</html>

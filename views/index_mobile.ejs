@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>データ削除ページ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      max-width: 92%;
+      background-color: #f1f1f1;
+      overflow-x: hidden;
+    }
+
+
+    #main-container {
+      width: 100%;
+      margin: auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .customer-card {
+      background: #ffffff;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-section {
+      margin-bottom: 10px;
+    }
+
+    /* Modal CSS */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-modal {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      margin: -10px -10px 0 0;
+    }
+
+    .close-modal:hover,
+    .close-modal:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .image-preview {
+      display: block;
+      max-width: 100%;
+      margin: 10px 0;
+      max-height: 200px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    #message-preview {
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      min-height: 100px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    #search-form {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+    }
+
+    #message-form button {
+      background-color: #008CBA;
+      /* 青色 */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    #message-container {
+      background-color: #f2f2f2;
+      /* 背景色 */
+      padding: 20px;
+      /* 内側の余白 */
+      margin-bottom: 20px;
+      /* 下側の外側の余白（カードとの間） */
+      border-radius: 5px;
+      /* 角の丸み */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      /* 影 */
+    }
+
+    #sort-form {
+      border: 1px solid #ddd;
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #sort-form .form-group label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    #sort-form .form-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    #school-info-form textarea {
+      max-width: 350px
+    }
+
+    #sort-form button {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    #message-preview {
+      max-height: 350px;
+      max-width: 700px;
+      overflow: auto;
+    }
+
+    .button {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 50px 2px;
+      cursor: pointer;
+    }
+
+
+    @media (max-width: 768px) {
+      #main-container {
+        width: 100%;
+      }
+
+      #top-panel {
+        flex-direction: column;
+      }
+
+      #left-panel {
+        margin-bottom: 20px;
+      }
+
+      .customer-card {
+        margin: 0 10px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main-container">
+    <div id="top-panel">
+      <div id="left-panel">
+        <form id="sort-form" action="/line_message" method="GET">
+          <div class="form-group">
+            <label>フライト状況:</label>
+            <select name="flightStatus">
+              <option value="">すべて</option>
+              <option value="done">完了</option>
+              <option value="notDone">未完了</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>性別:</label>
+            <select name="gender">
+              <option value="">すべて</option>
+              <option value="male">男性</option>
+              <option value="female">女性</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>レッスンへの興味:</label>
+            <select name="solo">
+              <option value="">すべて</option>
+              <option value="yes">あり</option>
+              <option value="no">なし</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>フライト予定日時:</label>
+            <input type="date" name="flightDate">
+          </div>
+          <button type="submit">検索</button>
+          <div class="buttons-container">
+            <a href="/management" class="button">顧客一覧に戻る</a>
+            <a href="/top" class="button">TOPに戻る</a>
+          </div>
+        </form>
+      </div>
+      <!-- Template selection modal -->
+      <div id="template-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h2>テンプレート選択</h2>
+          <!--<div class="template" onclick="selectTemplate('coupon')">クーポン</div>-->
+          <div class="template" onclick="selectTemplate('school-info')">スクールの案内</div>
+          <div class="template" onclick="selectTemplate('linked-image')">リンク付き画像</div>
+        </div>
+      </div>
+      <div id="coupon-modal" class="modal">
+        <div class="modal-content">
+          <h2>クーポン編集</h2>
+          <form id="coupon-form">
+            <label>
+              クーポン:
+              <input type="text" id="coupon-code">
+            </label>
+            <label>
+              画像:
+              <input type="file" id="coupon-file">
+            </label>
+            <label>
+              <input type="text" id="coupon-image">
+            </label>
+            <div class="button-container">
+              <button type="submit">完了</button>
+              <button id="upload-button">画像をアップロード</button>
+              <img id="coupon-image-preview" class="image-preview">
+            </div>
+          </form>
+          <div id="results"></div>
+          <span class="close-modal">閉じる</span>
+        </div>
+      </div>
+      <div id="school-info-modal" class="modal">
+        <div class="modal-content">
+          <h2>スクール案内編集</h2>
+          <form id="school-info-form">
+            <label>
+              <textarea id="school-info-text" rows="15" cols="50" style="resize:none;">
+タンデム体験スクールへの興味をお持ちいただき、ありがとうございます。
+                      
+以下にスクールの概要と、体験学習に必要な情報を記載しております。
+                      
+---
+                      
+**タンデム体験スクール**
+                      
+あなたのパートナーと共にスキルを向上させ、新たな経験を通じて自己成長を促進する場を提供します。
+                      
+**体験学習の日程:**
+                      
+私たちの次の体験学習は、2023年6月10日、午前10時から午後4時まで予定されています。
+                      
+ **場所:**
+                      
+タンデム体験スクール
+（詳細な住所とアクセス情報）
+---
+                      
+お申し込みは、下記のリンクからお願いします。
+                      
+（お申し込みリンク）
+                      
+質問や不明点がございましたら、いつでもお気軽にお問い合わせください。楽しい学びの場としてお待ちしております。
+                      
+よろしくお願いいたします、
+                      
+タンデム体験スクール
+                      </textarea>
+            </label>
+            <div class="button-container">
+              <button type="submit">完了</button>
+              <img id="school-info-image-preview" class="image-preview">
+            </div>
+          </form>
+          <span class="close-modal">閉じる</span>
+        </div>
+      </div>
+      <div id="linked-image-modal" class="modal">
+        <div class="modal-content">
+          <h2>リンク付き画像編集</h2>
+          <form id="linked-image-form">
+            <label>
+              リンク URL:
+              <input type="text" id="linked-image-url">
+            </label>
+            <label>
+              画像:
+              <input type="file" id="linked-file">
+            </label>
+            <label>
+              <input type="text" id="linked-image-image">
+            </label>
+            <div class="button-container">
+              <button type="submit">完了</button>
+              <button id="upload-linked-image">画像をアップロード</button>
+              <img id="linked-image-preview" class="image-preview">
+            </div>
+          </form>
+          <div id="linked-results"></div>
+          <span class="close-modal">閉じる</span>
+        </div>
+      </div>
+      <div id="message-container">
+        <h1>Lineメッセージ送信</h1>
+        <form id="message-form">
+          <div class="form-row">
+            <button type="button" onclick="openTemplateModal()">メッセージを作成する</button>
+          </div>
+          <div class="form-row" id="preview-row">
+            <div id="message-preview"></div>
+          </div>
+          <button type="submit">送信</button><br>
+        </form>
+      </div>
+    </div>
+    <div id="customer-container">
+      <% customers.forEach((item)=> { %>
+        <div class="customer-card">
+          <div class="card-section">
+            <h3>
+              <%= item.name %>
+            </h3>
+            <p>
+              <%= item.age %>, <%= item.gender %>
+            </p>
+          </div>
+          <div class="card-section">
+            <h4>フライト情報</h4>
+            <p>予定日時: <%= item.flight %>
+            </p>
+            <p>状況: <%= item.done %>
+            </p>
+            <p>希望体験内容: <%= item.level %>
+            </p>
+            <p>一人のレッスンへの興味: <%= item.solo %>
+            </p>
+          </div>
+          <div class="card-section">
+            <h4>連絡先情報</h4>
+            <p>住所: <%= item.address2 %>
+            </p>
+            <p>番号名: <%= item.address3 %>
+            </p>
+            <p>電話番号: <%= item.phone %>
+            </p>
+            <p>緊急連絡先(氏名): <%= item.name2 %>
+            </p>
+            <p>緊急連絡先(番号): <%= item.number %>
+            </p>
+          </div>
+          <div class="card-section">
+            <h4>その他の情報</h4>
+            <p>SNS投稿: <%= item.sns %>
+            </p>
+            <p>ソース元: <%= item.source %>
+            </p>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1385.0.min.js"></script>
+  <script>
+    AWS.config.region = 'ap-northeast-1';
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'ap-northeast-1:bbb4def6-d61f-436b-880a-a369dbc50450',
+    });
+
+    var bucketName = 'sorarogu-sns';
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: bucketName
+      }
+    });
+
+    var fileChooser = document.getElementById('coupon-file');
+    var button = document.getElementById('upload-button');
+    var results = document.getElementById('results');
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault(); // prevent the form from submitting normally
+      var file = fileChooser.files[0];
+
+      if (file) {
+        results.innerHTML = '';
+        var params = {
+          Key: file.name,
+          ContentType: file.type,
+          Body: file,
+          ACL: 'public-read'
+        };
+
+        bucket.upload(params, function (err, data) {
+          if (err) {
+            results.innerHTML = 'ERROR: ' + err;
+          } else {
+            results.innerHTML = 'Successfully uploaded file.';
+            document.getElementById('coupon-image-preview').src = data.Location;
+            document.getElementById('coupon-image').value = data.Location; // set the value of the image URL field
+          }
+        });
+      } else {
+        results.innerHTML = 'Nothing to upload.';
+      }
+    });
+  </script>
+
+  <script>
+
+    AWS.config.region = 'ap-northeast-1';
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'ap-northeast-1:bbb4def6-d61f-436b-880a-a369dbc50450',
+    });
+    AWS.config.credentials.get(function (err) {
+      if (err) console.log(err);
+      else console.log(AWS.config.credentials);
+    });
+    var bucketName = 'sorarogu-sns';
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: bucketName
+      }
+    });
+
+    var fileChooser = document.getElementById('linked-file');
+    var button = document.getElementById('upload-linked-image');
+    var results = document.getElementById('linked-results');
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault(); // prevent the form from submitting normally
+      var file = fileChooser.files[0];
+
+      if (file) {
+        results.innerHTML = '';
+        var params = {
+          Key: file.name,
+          ContentType: file.type,
+          Body: file,
+          ACL: 'public-read'
+        };
+
+        bucket.upload(params, function (err, data) {
+          if (err) {
+            results.innerHTML = 'ERROR: ' + err;
+          } else {
+            results.innerHTML = 'アップロードが完了しました！完了ボタンを押してください。';
+            document.getElementById('linked-image-preview').src = data.Location;
+            document.getElementById('linked-image-image').value = data.Location; // set the value of the image URL field
+          }
+        });
+      } else {
+        results.innerHTML = 'Nothing to upload.';
+      }
+    });
+  </script>
+  <script>
+    const templateModal = document.getElementById("template-modal");
+    const couponModal = document.getElementById("coupon-modal");
+    const schoolInfoModal = document.getElementById("school-info-modal");
+    const linkedImageModal = document.getElementById("linked-image-modal");
+    const messagePreview = document.getElementById("message-preview");
+    var spans = document.getElementsByClassName('close-modal');
+
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].onclick = function () {
+        couponModal.style.display = 'none';
+        schoolInfoModal.style.display = 'none';
+        linkedImageModal.style.display = 'none';
+        templateModal.style.display = 'none';
+      }
+    }
+
+    window.onclick = function (event) {
+      if (event.target == couponModal) {
+        couponModal.style.display = 'none';
+      }
+      else if (event.target == schoolInfoModal) {
+        schoolInfoModal.style.display = 'none';
+      }
+      else if (event.target == linkedImageModal) {
+        linkedImageModal.style.display = 'none';
+      }
+      else if (event.target == templateModal) {
+        templateModal.style.display = 'none';
+      }
+    }
+
+    const couponImageUrlInput = document.getElementById("coupon-image");
+    const couponImagePreview = document.getElementById("coupon-image-preview");
+
+    couponImageUrlInput.addEventListener("input", function () {
+      couponImagePreview.src = this.value;
+
+      couponImagePreview.onload = function () {
+        const maxWidth = 200;
+        if (this.width > maxWidth) {
+          this.height *= maxWidth / this.width;
+          this.width = maxWidth;
+        }
+      }
+    });
+
+    const imageUrlInput = document.getElementById("linked-image-image");
+    const imagePreview = document.getElementById("linked-image-preview");
+
+    imageUrlInput.addEventListener("input", function () {
+      imagePreview.src = this.value;
+      imagePreview.onload = function () {
+        const maxWidth = 200;
+        if (this.width > maxWidth) {
+          this.height *= maxWidth / this.width;
+          this.width = maxWidth;
+        }
+      }
+    });
+
+    function openTemplateModal() {
+      templateModal.style.display = "block";
+    }
+
+    function selectTemplate(templateType) {
+      templateModal.style.display = "none";
+      switch (templateType) {
+        case 'coupon':
+          couponModal.style.display = "block";
+          break;
+        case 'school-info':
+          schoolInfoModal.style.display = "block";
+          break;
+        case 'linked-image':
+          linkedImageModal.style.display = "block";
+          break;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const messagePreview = document.getElementById("message-preview");
+      const couponModal = document.getElementById("coupon-modal");
+      const schoolInfoModal = document.getElementById("school-info-modal");
+      const linkedImageModal = document.getElementById("linked-image-modal");
+
+      document.getElementById("coupon-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const code = document.getElementById("coupon-code").value;
+        const image = document.getElementById("coupon-image").value;
+        messagePreview.innerHTML = `<img src="${image}" /><p>${code}</p>`;
+        couponModal.style.display = "none";
+      });
+
+      document.getElementById("school-info-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        let text = document.getElementById("school-info-text").value;
+        text = text.replace(/\n/g, '<br>');
+        messagePreview.innerHTML = `<p>${text}</p>`;
+        schoolInfoModal.style.display = "none";
+      });
+
+      document.getElementById("linked-image-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const url = document.getElementById("linked-image-url").value;
+        const image = document.getElementById("linked-image-image").value;
+        messagePreview.innerHTML = `<a href="${url}"><img src="${image}" /></a>`;
+        linkedImageModal.style.display = "none";
+      });
+      document.getElementById('message-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const previewContent = document.getElementById('message-preview').innerHTML;
+
+        fetch('/send_message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: previewContent })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      });
+    });
+  </script>
+</body>
+
+</html>

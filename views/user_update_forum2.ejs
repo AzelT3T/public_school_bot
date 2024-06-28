@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>タンデム顧客情報更新</title>
+    <!--<link rel="stylesheet" href="/css/style.css">-->
+    <script src="/send_url.js"></script>
+    <meta name="viewport" content="width=480">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #E0F7FA; /* 薄い水色 */
+        padding-top: 2em;
+      }
+    
+      .container {
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+    
+      h1, h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    
+      form p {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+    
+      form input[type="text"], form select, form input[type="date"], form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+    
+      form input[type="submit"] {
+        background-color: #4FC3F7; /* 薄い空色 */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    
+      form input[type="submit"]:hover {
+        background-color: #039BE5; /* 濃い空色 */
+      }
+    
+      .modal-title {
+        color: #444;
+      }
+    
+      .modal-body {
+        color: #666;
+      }
+    
+      .btn-secondary {
+        color: #fff;
+        background-color: #B3E5FC; /* 薄い空色 */
+      }
+    
+      .btn-secondary:hover {
+        background-color: #81D4FA; /* 濃い空色 */
+      }
+
+      .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+        if (userId) {
+          document.getElementById('userId').value = userId;
+        }
+      } catch (error) {
+        alert('エラーが発生しました。ページを開きなおしてください。');
+      }
+    });
+  </script>
+  </head>
+  <body>
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">通知</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sign">
+      <div class="container">
+        <h1></h1>
+        <div class="panel">
+          <script>
+            $(document).ready(function() {
+              const message = "<%= message %>";
+              if (message) {
+                $('#modal-message').text(message);
+                $('#myModal').modal('show');
+              }
+            });
+            </script>
+          <h2>タンデム顧客情報更新</h2>
+          <div class="buttons-container">
+            <a href="/management" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"class="button">顧客一覧へ戻る</a>
+            <a href="/top" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"class="button">TOPに戻る</a>
+        </div>
+          <a href="https://stellamaris1.herokuapp.com/top">topへ</a>
+          <form action="update_users_management" method="post">
+            <input type="hidden"  name="id" value="<%= user.id ?? '' %>">
+            <p>体験内容</p>
+            <input type="text"  name="level" value="<%= user.level ?? '' %>">
+            <p>フライト予定日時</p>
+            <input type="text"  name="flight" value="<%= user.flight ?? '' %>">
+            <p>フライト状況</p>
+            <input type="text"  name="done" value="<%= user.done ?? '' %>">
+            <p>名前</p>
+            <input type="text"  name="name" value="<%= user.name ?? '' %>">
+            <p>性別</p>
+            <select name="gender">
+              <option value="男" <%= user.gender === '男' ? 'selected' : '' %>>男</option>
+              <option value="女" <%= user.gender === '女' ? 'selected' : '' %>>女</option>
+            </select>
+            <p>携帯番号</p>
+            <input type="text"  name="phone" value="<%= user.phone ?? '' %>">
+            <p>郵便番号(7桁)</p>
+            <input type="text"  name="address1" size="10" maxlength="8" onKeyUp="AjaxZip3.zip2addr(this,'','address2','address2');" value="<%= user.address1 ?? '' %>">
+            <p>住所</p>
+            <input type="text" name="address2" value="<%= user.address2 ?? '' %>">
+            <p>番号名</p>
+            <input type="text" name="address3" value="<%= user.address3 ?? '' %>">
+            <p>email</p>
+            <input type="text" name="email" value="<%= user.email ?? '' %>">
+            <p>生年月日</p>
+            <input type="date"  name="dob" value="<%= user.bod ? new Date(user.birth_date.getTime() + (1000 * 60 * 60 * 9)).toISOString().split('T')[0] : '1990-04-01' %>">
+            <p>身長</p>
+            <input type="number" name="height" value="<%= user.height ?? '175' %>" inputmode="numeric">
+            <p>体重</p>
+            <input type="number" name="weight" value="<%= user.weight ?? '65' %>" inputmode="numeric">
+            <p>血液型</p>
+            <select name="Bloodtype">
+              <option value="A" <%= user.Bloodtype === 'A' ? 'selected' : '' %>>A</option>
+              <option value="B" <%= user.Bloodtype === 'B' ? 'selected' : '' %>>B</option>
+              <option value="O" <%= user.Bloodtype === 'O' ? 'selected' : '' %>>O</option>
+              <option value="AB" <%= user.Bloodtype === 'AB' ? 'selected' : '' %>>AB</option>
+            </select>
+            <p>勤務先種別</p>
+            <input type="text"  name="jobtype" value="<%= user.jobtype ?? '' %>">
+            <p>勤務先</p>
+            <input type="text"  name="job" value="<%= user.job ?? '' %>">
+            <p>緊急連絡先1(氏名)</p>
+            <input type="text"  name="name2" value="<%= user.name2 ?? '' %>">
+            <p>緊急連絡先1(続柄)</p>
+            <input type="text"  name="type" value="<%= user.type ?? '' %>">
+            <p>緊急連絡先1(番号)</p>
+            <input type="text"  name="number" value="<%= user.number ?? '' %>">
+            <p>一人のレッスンへの興味</p>
+            <input type="text" name="solo" value="<%= user.solo ?? '' %>">
+            <p>SNS投稿</p>
+            <input type="text" name="sns" value="<%= user.sns ?? '' %>">
+            <p>ソース元</p>
+            <input type="text" name="source" value="<%= user.source ?? '' %>">
+            <input href="/update_users" type="submit" value="送信する">
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

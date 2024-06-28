@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Add this line for responsive -->
+        <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+    <title>スクール活動一覧ページ</title>
+    <style>
+        body {
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 16px;
+            /* Adjust the base font size */
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            color: #0066cc;
+            text-decoration: none;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            padding: 10px 15px;
+            background-color: #f2f2f2;
+            margin-right: 10px;
+        }
+
+        form {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        form input[type="date"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        form input[type="submit"] {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #0066cc;
+            color: #fff;
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 15px;
+        }
+
+        .delete-button {
+            color: #fff;
+            background-color: #f00;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #c00;
+        }
+
+        @media screen and (min-width: 600px) and (max-width: 1500px) {
+            body {
+                overflow-x: hidden;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-size: 30px;
+                background-color: #f4f4f4;
+            }
+
+            .card-container {
+                font-family: Arial, sans-serif;
+            }
+
+            .card-container .card h2,
+            .card-container .card p {
+                font-size: 30px;
+            }
+
+            a {
+                font-size: 30px;
+                padding: 20px 30px;
+                border-radius: 10px;
+            }
+
+            form input[type="date"] {
+                font-size: 30px;
+                padding: 10px;
+                height: 50px;
+            }
+
+            input[type="checkbox"] {
+                transform: scale(2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>スクール活動一覧</h1>
+        <a href="/school_management"
+            style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;">管理画面に戻る</a>
+        <a href="/top" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;">topに戻る</a>
+        <form action="/search_activity" method="POST">
+            <label for="date">日付で検索:</label>
+            <input type="date" id="date" name="date">
+            <input type="submit" value="検索">
+        </form>
+        <div class="card-container">
+            <% users.forEach((user)=> { %>
+                <div class="card">
+                    <p><strong>名前:</strong>
+                        <%= user.name %>
+                    </p>
+                    <p><strong>日付:</strong>
+                        <%= user.date %>
+                    </p>
+                    <p><strong>場所:</strong>
+                        <%= user.area %>
+                    </p>
+                    <p><strong>時間:</strong>
+                        <%= user.hours %>
+                    </p>
+                    <p><strong>インストラクター:</strong>
+                        <%= user.instructor %>
+                    </p>
+                    <p><strong>コメント:</strong>
+                        <%= user.comments %>
+                    </p>
+                    <p><strong>インストラクターのコメント:</strong>
+                        <%= user.instructor_comment %>
+                    </p>
+                    <p><strong>編集する:</strong><a href='/edit_activity?name=<%= encodeURIComponent(user.id) %>'>編集</a>
+                    <p><strong>動画・画像:</strong>
+                        <% if (user.upload_url) { %>
+                            <% const fileType=user.upload_url.split('.').pop().toLowerCase(); %>
+                                <% if (['png', 'jpg' , 'jpeg' , 'gif' ].includes(fileType)) { %>
+                                    <img src="<%= user.upload_url %>" alt="Uploaded image" style="width: 300px;">
+                                    <% } else if (['mp4', 'webm' , 'ogg' , 'mov' ].includes(fileType)) { %>
+                                        <video width="320" controls>
+                                            <% if (fileType==='mov' ) { %>
+                                                <source src="<%= user.upload_url %>" type="video/quicktime">
+                                                <% } else { %>
+                                                    <source src="<%= user.upload_url %>" type="video/<%= fileType %>">
+                                                    <% } %>
+                                                        Your browser does not support the video tag.
+                                        </video>
+                                        <p>動画が再生できない場合は、以下のリンクからダウンロードしてください：</p>
+                                        <a href="<%= user.upload_url %>" download>動画をダウンロード</a>
+                                        <% } %>
+                                            <% } %>
+                                            <% if (user.upload_gpx_url) { %>
+                                                <p><button class="show-gpx-button"data-url="<%= user.upload_gpx_url %>">GPXを表示</button></p>
+                                            <% } %>
+                                                <p><strong>削除:</strong><button class="delete-button"
+                                                        data-id="<%= encodeURIComponent(user.id) %>">削除</button></p>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                if (confirm('本当に削除しますか？')) {
+                    fetch('/delete_activity', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('削除に成功しました');
+                                window.location.reload();
+                            } else {
+                                alert('削除に失敗しました');
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            alert('削除に失敗しました');
+                        });
+                }
+            });
+        });
+
+        document.querySelectorAll('.show-gpx-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const gpxUrl = e.target.dataset.url;
+                const urlParts = gpxUrl.split('/');
+                console.log(urlParts)
+                const filenameWithExt = urlParts[urlParts.length - 1];
+                console.log(filenameWithExt)
+                const gpxFilename = filenameWithExt.split('.gpx')[0];
+                console.log(gpxFilename)
+
+                fetch('/connect_cesium', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ gpxFilename }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'https://cesiumapp.herokuapp.com/access';
+                        } else {
+                            alert('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Cesiumの更新に失敗しました');
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

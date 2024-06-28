@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>顧客一覧</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-container {
+      padding: 15px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      margin-bottom: 15px;
+    }
+
+    .card-container {
+      padding: 15px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    .card-label {
+      font-weight: bold;
+    }
+
+    button,
+    input[type="submit"],
+    input[type="radio"] {
+      font-size: 10px;
+      padding: 4px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover,
+    input[type="submit"]:hover,
+    input[type="radio"]:hover {
+      background-color: #555;
+    }
+
+    input[type="date"] {
+      font-size: 10px;
+      padding: 4px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .Flight_submit_button {
+      width: 100%;
+    }
+
+    .update-button {
+      display: inline-block;
+      padding: 5px 10px;
+      width: 15vw;
+      text-decoration: none;
+      color: #fff;
+      background-color: gray;
+      border-radius: 5px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .update-button:hover {
+      background-color: darkgray;
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 1500px) {
+      body {
+        overflow-x: hidden;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 15px;
+        background-color: #f4f4f4;
+      }
+
+      .card-container {
+        font-family: Arial, sans-serif;
+      }
+
+      .card-container .card h2,
+      .card-container .card p {
+        font-size: 15px;
+      }
+
+      a {
+        font-size: 15px;
+        padding: 15px 30px;
+        border-radius: 10px;
+      }
+
+      form input[type="date"] {
+        font-size: 15px;
+        padding: 10px;
+        height: 50px;
+      }
+
+      .Flight_submit_button {
+      font-size: 15px;
+      width: 100%;
+      height: 50px;
+    }
+
+    input[type="checkbox"] {
+        transform: scale(2);
+    }
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="search-container">
+      <form action="/schedule_search" method="post" class="search-form">
+        <fieldset>
+          <legend>フライト予定日と名前で検索</legend>
+          <label>
+            <input type="date" name="flight">
+            <input type="text" name="name">
+          </label>
+          <input type="submit" value="検索">
+        </fieldset>
+      </form>
+      <div class="button-container" style="display: flex; justify-content: space-around; margin: 15px 0;">
+        <a href="/today_flight" class="update-button" style="color: white;">本日のタンデム</a>
+        <a href="/line_message" class="update-button" style="color: white;">メッセ―ジ送信</a>
+        <a href="/delete" class="update-button" style="color: white;">削除ページ</a>
+        <a href="/top" class="update-button" style="color: white;">topページ</a>
+      </div>
+    </div>
+    <form action="/update_flight_status" method="post">
+      <input type="submit" value="フライト状況を更新" style="margin-bottom: 15px;" class=Flight_submit_button>
+      <div class="card-container">
+        <% users.forEach((item)=> { %>
+          <div class="card">
+            <div class="card-label">ID：</div>
+            <div>
+              <%= item.id %>
+            </div>
+            <div class="card-label">希望体験内容：</div>
+            <div>
+              <%= item.level %>
+            </div>
+            <div class="card-label">フライト予定日時：</div>
+            <div>
+              <%= item.flight %>
+            </div>
+            <div class="card-label">フライト状況:</div>
+            <div>
+              <%= item.done %>
+            </div>
+            <div class="card-label">名前:</div>
+            <div>
+              <%= item.name %>
+            </div>
+            <div class="card-label">年齢:</div>
+            <div>
+              <%= item.age %>
+            </div>
+            <div class="card-label">性別:</div>
+            <div>
+              <%= item.gender %>
+            </div>
+            <div class="card-label">住所:</div>
+            <div>
+              <%= item.address2 %>
+            </div>
+            <div class="card-label">番号名:</div>
+            <div>
+              <%= item.address3 %>
+            </div>
+            <div class="card-label">電話番号:</div>
+            <div>
+              <%= item.phone %>
+            </div>
+            <div class="card-label">緊急連絡先(氏名):</div>
+            <div>
+              <%= item.name2 %>
+            </div>
+            <div class="card-label">緊急連絡先(番号):</div>
+            <div>
+              <%= item.number %>
+            </div>
+            <div class="card-label">一人のレッスンへの興味:</div>
+            <div>
+              <%= item.solo %>
+            </div>
+            <div class="card-label">SNS投稿:</div>
+            <div>
+              <%= item.sns %>
+            </div>
+            <div class="card-label">ソース元:</div>
+            <div>
+              <%= item.source %>
+            </div>
+            <div class="card-label">情報更新:</div>
+            <div><a href="/update_management?name=<%= encodeURIComponent(item.id) %>" class="btn btn-primary">情報更新</a>
+            </div>
+            <label>
+              <input type="checkbox" name="selectedUsers[]" value="<%= item.id %>">
+            </label>
+          </div>
+          <% }) %>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

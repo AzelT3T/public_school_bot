@@ -1,0 +1,248 @@
+/* reset ================================ */
+  html {
+    font-size: 100%;
+    font-family: 'Hiragino Sans', sans-serif;
+    line-height: 1.7;
+    letter-spacing: 1px;
+  }
+  
+  body {
+    padding-right: 300px;
+    background-color: #CEE8F2;
+    color: #2c2c2c;
+  }
+  
+  ul, li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  a {
+    display: block;
+    text-decoration: none;
+    color: #2d3133;
+    font-size: 14px;
+  }
+  
+  a:hover {
+    transition: all 0.3s ease;
+  }
+  
+  
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+  
+  h1 {
+    font-weight: 600;
+  }
+
+  .text2{
+    
+    margin-left: 0px;
+    margin-bottom: -2px;
+    font-size:19px
+  }
+  
+  /* top ================================ */
+  .top-wrapper {
+    max-width: 1200px;
+    min-width: 920px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 60px;
+  }
+  
+  .top-detail {
+    width: 36%;
+    min-width: 320px;
+ 
+  }
+
+  .top-detail .title {
+    font-size:56px;
+    line-height: 66px;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    padding: 0px 60px;
+    }
+  
+  .top-detail .description {
+    padding-left:500px;
+    font-size: 20px;
+    line-height: 40px;
+    letter-spacing: 0.5px;
+    margin-bottom: 40px;
+    margin-right: -400px;
+    margin-left:-250px;
+  }
+
+  .top-detail .description2 {
+    font-size: 20px;
+    line-height: 40px;
+    letter-spacing: 0.5px;
+    margin-bottom: 40px;
+    margin-right: -400px;
+    margin-left:-80px;
+  }
+  
+  .top-detail .index-button {
+    width: 184px;
+    height: 48px;
+    text-align: center;
+    line-height: 45px;
+    font-weight: 600;
+    color: #42cea9;;
+    background-color: #ffffff;
+    border: 2px solid #58d2b2;
+    border-radius: 2px;
+    padding: 0px 75px;
+    
+    
+  }
+  
+  .top-detail .index-button:hover {
+    color: #ffffff;
+    background-color:  #58d2b2;
+ 
+  }
+  
+  
+  .index-button {
+    cursor: pointer;
+
+  }
+  
+  .top-image {
+    width: 10%;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .top-image img {
+    width: 10%;
+  }
+  
+  /* header ================================ */
+  header {
+    width: 1900px;
+    padding-left: 1000px;
+    height: 56px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f4f9;
+    margin-top: -100px;
+  }
+  
+  .header-logo {
+    padding-left: 800px;
+    margin-left: 56px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 56px;
+    color: #6c7686;
+    display: inline;
+  }
+  
+  .header-logo:hover {
+    color: #58d2b2;
+  }
+  
+  /* container ================================ */
+  .container {
+    width: 80%;
+    min-width: 360px;
+    max-width: 720px;
+    margin: 0 auto;
+    margin-top: 56px;
+  }
+  
+  .container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .new-button {
+    background: #80bcff;
+    border-radius: 30px;
+    font-size: 14px;
+    width: 120px;
+    height: 45px;
+    line-height: 43px;
+    text-align: center;
+    color: #ffffff;
+    border: 2px solid #80bcff;
+    margin-top: 20px;
+    margin-left: 340px;
+  }
+  .new-button:hover {
+    background-color: #ffffff;
+    color: #80bcff;
+    transition: all 0.3s ease;
+  }
+  
+  .cancel-button {
+    margin-top: 16px;
+    margin-left: 2px;
+    font-weight: 600;
+    color: #bac6d3;
+    text-decoration: underline;
+    display: inline-block;
+  }
+  
+  .cancel-button:hover {
+    color: #80bcff;
+  }
+  
+  .container-header h1 {
+    font-size: 24px;
+  }
+  
+  
+  /* index ================================ */
+  .table-head {
+    
+    width: 1000px;
+    display: flex;
+    background-color: #77B3D9;
+    border-radius: 2px 2px 0 0;
+    height: 44px;
+    font-size: 16px;
+    line-height: 46px;
+    color: #ffffff;
+  }
+  
+  .id-column {
+    width: 150px;
+    text-align: center;
+  }
+  
+  .table-body {
+    background-color: #ffffff;
+    width: 1000px;
+  }
+  
+  .table-body li {
+    width: 1000px;
+    height: 50px;
+    border: 1px solid #f0f4f9;
+    border-top: none;
+    line-height: 74px;
+    display: flex;
+  }
+  
+  .table-body .id-column {
+    font-size: 16px;
+    color: #bac6d3;
+  }
+  
+  .table-body .name-column {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8491a5;
+  }
+  

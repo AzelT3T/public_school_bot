@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>スクール活動履歴一覧</title>
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 95%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4A4A4A;
+            color: white;
+        }
+
+        th:first-child,
+        td:first-child {
+            width: 120px;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 90px;
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 80px;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 40px;
+            max-width: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 130px;
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 1100px;
+            max-width: 1100px;
+        }
+
+        .search-box {
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .search-box h2 {
+            margin-top: 0;
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box form input[type="date"] {
+            flex-grow: 1;
+        }
+
+        .search-box form input[type="submit"] {
+            padding: 5px 10px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            font-size: 18px;
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .button:hover {
+            background-color: #f2f2f2;
+        }
+
+        .delete-button {
+            color: #fff;
+            background-color: #f00;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #c00;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>スクール活動履歴一覧</h1>
+        <div class="buttons-container">
+            <a href="/school_management" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"
+                class="button">スクール生一覧へ戻る</a>
+            <a href="/top" style="color: rgb(0, 0, 0); text-decoration: underline; font-size: 18px;"
+                class="button">TOPに戻る</a>
+        </div>
+        <div class="search-box">
+            <h2>検索</h2>
+            <form action="/search_activity" method="POST">
+                <label for="date-search">日付で検索:</label>
+                <input type="date" id="date" name="date">
+                <input type="submit" value="検索">
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>名前</th>
+                    <th>日付</th>
+                    <th>場所</th>
+                    <th>時間</th>
+                    <th>インストラクター</th>
+                    <th>コメント</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach((user, index)=> { %>
+                    <tr style="background-color: <%= (index % 2 === 0) ? '#f5f5f5' : '#e0e0e0' %>;">
+                        <td>
+                            <a href="#" onclick="postToActivity('<%= user.name %>')"><%= user.name %></a>
+                        </td>
+                        <td>
+                            <%= user.date %>
+                        </td>
+                        <td>
+                            <%= user.area %>
+                        </td>
+                        <td>
+                            <%= user.hours %>
+                        </td>
+                        <td>
+                            <%= user.instructor %>
+                        </td>
+                        <td>
+                            <%= user.comments %>
+                        </td>
+                        <td><button onclick="window.location.href='/edit_activity?name=<%= encodeURIComponent(user.id) %>'">編集</button></td>
+                        <td><button class="delete-button" data-id="<%= encodeURIComponent(user.id) %>">削除</button></td>
+                    </tr>
+                    <tr class="details-row" id="details-row-<%= index %>" style="background-color: <%= (index % 2 === 0) ? '#f5f5f5' : '#e0e0e0' %>;">
+                        <td colspan="6">
+                            <h3>インストラクターからのコメント</h3>
+                            <div style="word-wrap: break-word; white-space: pre-wrap;"><%= user.instructor_comment %></div>
+                            <h3>動画・画像</h3>
+                            <% if (user.upload_url) { %>
+                                <% const fileType=user.upload_url.split('.').pop().toLowerCase(); %>
+                                <% if (['png', 'jpg' , 'jpeg' , 'gif' ].includes(fileType)) { %>
+                                    <img src="<%= user.upload_url %>" alt="Uploaded image" style="width: 300px;">
+                                <% } else if (['mp4', 'webm' , 'ogg' , 'mov' ].includes(fileType)) { %>
+                                    <!-- Video.jsのプレーヤーを追加 -->
+                                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="320">
+                                        <% if (fileType==='mov' ) { %>
+                                            <source src="<%= user.upload_url %>" type="video/quicktime">
+                                        <% } else { %>
+                                            <source src="<%= user.upload_url %>" type="video/<%= fileType %>">
+                                        <% } %>
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <script>
+                                        // Video.jsのプレーヤーを初期化
+                                        videojs(document.getElementById('my-video'));
+                                    </script>
+                                    <p>動画が再生できない場合は、以下のリンクからダウンロードしてください：</p>
+                                    <a href="<%= user.upload_url %>" download>動画をダウンロード</a>
+                                <% } %>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+            
+        </table>
+    </div>
+    <script>
+    function postToActivity(name) {
+        const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/ToActivity';
+
+        const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'name';
+            hiddenField.value = name;
+
+            form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                if (confirm('本当に削除しますか？')) {
+                    fetch('/delete_activity', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('削除に成功しました');
+                                window.location.reload();
+                            } else {
+                                alert('削除に失敗しました');
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            alert('削除に失敗しました');
+                        });
+                }
+            });
+        });
+
+        document.querySelectorAll('.show-gpx-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const gpxUrl = e.target.dataset.url;
+                const urlParts = gpxUrl.split('/');
+                console.log(urlParts)
+                const filenameWithExt = urlParts[urlParts.length - 1];
+                console.log(filenameWithExt)
+                const gpxFilename = filenameWithExt.split('.gpx')[0];
+                console.log(gpxFilename)
+
+                fetch('/connect_cesium', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ gpxFilename }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'https://cesiumapp.herokuapp.com/access';
+                        } else {
+                            alert('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Cesiumの更新に失敗しました');
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Add this line for responsive -->
+    <title>スクール活動一覧ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 16px;
+            /* Adjust the base font size */
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            color: #0066cc;
+            text-decoration: none;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            padding: 10px 15px;
+            background-color: #f2f2f2;
+            margin-right: 10px;
+        }
+
+        form {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        form input[type="date"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        form input[type="submit"] {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #0066cc;
+            color: #fff;
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 15px;
+        }
+
+        .info-box {
+            border: 1px solid black;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <%= users[0].name %>のスクール活動一覧
+        </h1>
+        <div class="info-box">
+            <p>実施日数: <%= total_days %>日</p>
+            <p>実施時間: <%= total_hours %>時間</p>
+            <p>エリア別回数:
+            <ul>
+                <li>空パーク: <%= area_counts["空パーク"] %>回</li>
+                <li>衣笠山: <%= area_counts["衣笠山"] %>回</li>
+                <li>高塚: <%= area_counts["高塚"] %>回</li>
+                <li>竜ヶ岩: <%= area_counts["竜ヶ岩"] %>回</li>
+                <li>その他: <%= area_counts["その他"] %>回</li>
+            </ul>
+            </p>
+        </div>
+        <div class="card-container">
+            <% users.forEach((user)=> { %>
+                <div class="card">
+                    <p><strong>日付:</strong>
+                        <%= user.date %>
+                    </p>
+                    <p><strong>場所:</strong>
+                        <%= user.area %>
+                    </p>
+                    <p><strong>時間:</strong>
+                        <%= user.hours %>
+                    </p>
+                    <p><strong>インストラクター:</strong>
+                        <%= user.instructor %>
+                    </p>
+                    <p><strong>コメント:</strong>
+                        <%= user.comments %>
+                    </p>
+                    <p><strong>インストラクターのコメント:</strong>
+                        <%= user.instructor_comment %>
+                    </p>
+                    <p><strong>編集する:</strong><a href='/edit_activity_users?name=<%= encodeURIComponent(user.id) %>'>編集</a>
+                    <p><strong>動画・画像:</strong>
+                        <% if (user.upload_url) { %>
+                            <% const fileType=user.upload_url.split('.').pop().toLowerCase(); %>
+                                <% if (['png', 'jpg' , 'jpeg' , 'gif' ].includes(fileType)) { %>
+                                    <img src="<%= user.upload_url %>" alt="Uploaded image" style="width: 300px;">
+                                    <% } else if (['mp4', 'webm' , 'ogg' , 'mov' ].includes(fileType)) { %>
+                                        <video width="320" controls>
+                                            <% if (fileType==='mov' ) { %>
+                                                <source src="<%= user.upload_url %>" type="video/quicktime">
+                                                <% } else { %>
+                                                    <source src="<%= user.upload_url %>" type="video/<%= fileType %>">
+                                                    <% } %>
+                                                        Your browser does not support the video tag.
+                                        </video>
+                                        <p>動画が再生できない場合は、以下のリンクからダウンロードしてください：</p>
+                                        <a href="<%= user.upload_url %>" download>動画をダウンロード</a>
+                                        <% } %>
+                                            <% } %>
+                                            <% if (user.upload_gpx_url) { %>
+                                                <p><button class="show-gpx-button"data-url="<%= user.upload_gpx_url %>">GPXを表示</button></p>
+                                            <% } %>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+    <script>
+                document.querySelectorAll('.show-gpx-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const gpxUrl = e.target.dataset.url;
+                const urlParts = gpxUrl.split('/');
+                console.log(urlParts)
+                const filenameWithExt = urlParts[urlParts.length - 1];
+                console.log(filenameWithExt)
+                const gpxFilename = filenameWithExt.split('.gpx')[0];
+                console.log(gpxFilename)
+
+                fetch('/connect_cesium', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ gpxFilename }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'https://cesiumapp.herokuapp.com/access';
+                        } else {
+                            alert('Cesiumの更新に失敗しました');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Cesiumの更新に失敗しました');
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
